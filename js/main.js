@@ -1,9 +1,49 @@
+
  // ---onLoad---
 $(document).ready(function(){
 /* -------------- Job Title section ---------------- */
 
+console.log($('fieldset').children());
     // Set focus on name field
     $('#name').focus();
+
+/* start Basic info validation */
+    $('#name').on('input', function() {
+        let errorMessage = "Name: " + "<span id='errorName'>* please provide your name</span>";
+        let input = $(this);
+        let name = input.val();
+        if(name) {
+            $('fieldset').children()[1].innerHTML = 'Name: ';
+            $('#errorName').removeClass('invalid');
+            input.removeClass('invalid').addClass('valid');
+        } else {
+
+        $('fieldset').children()[1].innerHTML = errorMessage;
+        $('#errorName').addClass('invalid');
+            input.removeClass('valid').addClass("invalid");
+        }
+    });
+
+
+    $('#mail').on('input', function() {
+        let errorMessage = "Email: " + "<span id='errorMail'>* Please provide a valid email address</span>";
+        let input = $(this);
+        let mail = input.val();
+        
+        if(mail && mail.indexOf('@') != -1) {
+            $('fieldset').children()[3].innerHTML = 'Email: ';
+            $('#errorMail').removeClass('invalid');
+            input.removeClass('invalid').addClass('valid');
+        } 
+         else {
+            $('fieldset').children()[3].innerHTML = errorMessage;
+            $('#errorMail').addClass('invalid');
+            input.removeClass('valid').addClass("invalid");
+            //input.attr("placeholder", "Email field can't be empty!");
+        }
+    });    
+
+/* End of Basic info validation */
 
     // Hide other field
     // Show when title: 'other' is selected
@@ -50,11 +90,22 @@ $('#design').on('change', function(event){
  });
 
 
- /* ----------- Register section ----------- */
-
-
-
 /* ----------- ”Register for Activities” section -------------- */ 
+
+// Select all activities
+const activities = $('.activities label');
+const checkboxes = $('.activities input[type="checkbox"]');
+
+
+
+// for(let i = 0; activities.length; i+=1) {
+
+//     
+//     console.log(span);
+// }
+
+console.log(checkboxes);
+
 /*Some events are at the same day and time as others. If the user selects a workshop, don't allow selection of a workshop at the same day and time --
 you should disable the checkbox and visually indicate that the workshop in the competing time slot isn't available.
 
@@ -73,7 +124,7 @@ $('#payment option[value="credit card"]').attr('selected', 'selected');
 $('fieldset div:contains("PayPal")').hide();
 $('fieldset div:contains("Bitcoin")').hide();
 
-const $payment = $('#payment').on('change', (event) => {
+$('#payment').on('change', (event) => {
     if(event.target.value == 'credit card') {
         $('#credit-card').show();
         // Hide paypal and bitcoin section
@@ -98,4 +149,11 @@ const $payment = $('#payment').on('change', (event) => {
         $('#payment option[value="credit card"]').attr('selected', false);
     }
     });
+
+    $('form').on('submit', (e) => {
+        e.preventDefault();
+
+        // Check if fields are empty and are valid
+        //checkValidation();
+    })
  });

@@ -179,3 +179,13 @@ button:hover {
 		width: 49%;
 	}
 }
+
+.valid {
+	color: black;
+	border-color: none;
+}
+
+.invalid {
+	color: red;
+	border-color: red;
+}
