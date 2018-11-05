@@ -182,7 +182,7 @@ button:hover {
 
 .valid {
 	color: black;
-	border-color: none;
+	border-color: green;
 }
 
 .invalid {

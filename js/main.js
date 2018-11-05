@@ -3,7 +3,7 @@
 $(document).ready(function(){
 /* -------------- Job Title section ---------------- */
 
-console.log($('fieldset').children());
+
     // Set focus on name field
     $('#name').focus();
 
@@ -16,29 +16,41 @@ console.log($('fieldset').children());
             $('fieldset').children()[1].innerHTML = 'Name: ';
             $('#errorName').removeClass('invalid');
             input.removeClass('invalid').addClass('valid');
+
         } else {
 
         $('fieldset').children()[1].innerHTML = errorMessage;
         $('#errorName').addClass('invalid');
             input.removeClass('valid').addClass("invalid");
+
         }
     });
 
-
     $('#mail').on('input', function() {
-        let errorMessage = "Email: " + "<span id='errorMail'>* Please provide a valid email address</span>";
+        let eMessageNotValid = "Email: " + "<span id='errorMail'>* Please provide a valid email address</span>";
+        let eMessageEmpty =  'Email: ' + "<span id='errorEmpty'>Please fill in your email</span>";
         let input = $(this);
         let mail = input.val();
+        if(mail && mail.indexOf == 1) {
+            input.removeClass('invalid').addClass('valid');
+        }
         
-        if(mail && mail.indexOf('@') != -1) {
+        if(mail.indexOf('@') != -1) {
             $('fieldset').children()[3].innerHTML = 'Email: ';
             $('#errorMail').removeClass('invalid');
             input.removeClass('invalid').addClass('valid');
         } 
          else {
-            $('fieldset').children()[3].innerHTML = errorMessage;
-            $('#errorMail').addClass('invalid');
-            input.removeClass('valid').addClass("invalid");
+             if(mail == '') {
+                $('fieldset').children()[3].innerHTML = '';
+                $('fieldset').children()[3].innerHTML = eMessageEmpty;
+                $('#errorEmpty').addClass('invalid');
+             } else {
+                $('fieldset').children()[3].innerHTML = eMessageNotValid;
+                $('#errorMail').addClass('invalid');
+                input.removeClass('valid').addClass("invalid");
+             }
+
             //input.attr("placeholder", "Email field can't be empty!");
         }
     });    
@@ -104,7 +116,7 @@ const checkboxes = $('.activities input[type="checkbox"]');
 //     console.log(span);
 // }
 
-console.log(checkboxes);
+
 
 /*Some events are at the same day and time as others. If the user selects a workshop, don't allow selection of a workshop at the same day and time --
 you should disable the checkbox and visually indicate that the workshop in the competing time slot isn't available.
