@@ -19,15 +19,6 @@ $(document).ready(function(){
 
 /* --------- T-shirt section ---------- */
 
-// Save the color options in a variable
-let $options = $('#color option');
-
-//let $arrayPuns1 = [$options[0], $options[1], $options[2]];
-
-
-let $arrayPuns = [$options[0], $options[1], $options[2]];
-let $arrayHeart  = [$options[3], $options[4], $options[5]];
-
 // empty select (in case anything is there from last change)
 // remove options from DOM
 // hide shirt dropdown
@@ -40,18 +31,20 @@ colorLabel.hide();
 
 $('#design').on('change', function(event){
     colorLabel.show();
-     // empty select (in case anything is there from last change)
-     // add matching shirts to select
-     // show dropdown
+    colorList.show();
     if(event.target.value == 'js puns') {
         $('#color').empty();         
-        $('#color').append($arrayPuns).show();
+        $('#color').append('<option>Cornflower Blue</option>');
+        $('#color').append('<option>Dark Slate Grey</option>');
+        $('#color').append('<option>Gold</option>');
     } else if (event.target.value == 'heart js') {
         $('#color').empty();
-        $('#color').append($arrayHeart).show();
+        $('#color').append('<option>Tomato</option>');
+        $('#color').append('<option>Steel Blue</option>');
+        $('#color').append('<option>Dim Grey</option>');
     } else {
-        // empty select (in case anything is there from last change)
-        colorList.empty().hide();
+        // Hide the List and label
+        colorList.hide();
         colorLabel.hide();
     }
  });
@@ -59,30 +52,6 @@ $('#design').on('change', function(event){
 
  /* ----------- Register section ----------- */
 
-//  const checkboxes = $(':checkbox');
-//  checkboxes.on('change', function(e){
-//     console.log('test');
-//  });
-
-
-let activitiesArray = $(':checkbox').map(function() {
-    return this.parentNode.textContent;
-}).get();
-
-
- $('.activities').on('change', (e) => {
-    const checkbox = e.target;
-    const checked = checkbox.checked;
-    const label = checkbox.parentNode.textContent;
-    console.log(label, checked);
-    
-    
-
-    let myvar = $('.activities :contains(Tuesday 9am-12pm)').map(function() {
-        return this.textContent;
-    }).get();
-
-    });
 
 
 /* ----------- ”Register for Activities” section -------------- */ 
@@ -96,59 +65,37 @@ As a user selects activities, a running total should display below the list of c
 /* ---------------- Payment section -------------------- */
 
 // Set default payment option to credit card
-const test = $('#payment option[value="credit card"]').prop('selected', true);
-const test1 = $('#payment option[value="select_method"]').prop('disabled', true);
-// Select payment
-const creditCardSection = $('#credit-card');
-const selectPayment = $('#payment');
 
+$('#payment option[value="select_method"').attr('disabled', true);
+$('#payment option[selected]').removeAttr('selected');
+$('#payment option[value="credit card"]').attr('selected', 'selected');
 
-function showPaypal() {
-    return paypalInfo = $('fieldset div p:contains(PayPal)').show();  
-}
+$('fieldset div:contains("PayPal")').hide();
+$('fieldset div:contains("Bitcoin")').hide();
 
-function hidePaypal() {
-    return paypalInfo = $('fieldset div p:contains(PayPal)').hide();
-}
-
-function showBitcoin() {
-    return bitcoinInfo = $('fieldset div p:contains(Bitcoin)').show(); 
-}
-function hideBitcoin() {
-
-    return bitcoinInfo = $('fieldset div p:contains(Bitcoin)').hide();
-}
-
-
-selectPayment.on('change', function(event) {
-//    const option = $('#payment').find(":selected").text();
-
+const $payment = $('#payment').on('change', (event) => {
     if(event.target.value == 'credit card') {
-        creditCardSection.show();
-        hidePaypal();
-        hideBitcoin();
-    } else if(event.target.value == 'paypal') {
-        hideBitcoin();
-        creditCardSection.hide();
-        showPaypal();
-    } else if(event.target.value == 'bitcoin') {
-        creditCardSection.hide();
-        hidePaypal();
-        showBitcoin();
-    } else {
-        //$('#payment option[value="credit card"]').attr('selected', false);
-        creditCardSection.hide()
-    
+        $('#credit-card').show();
+        // Hide paypal and bitcoin section
+        $('fieldset div:contains("PayPal")').hide();
+        $('fieldset div:contains("Bitcoin")').hide();
+
+    } else if (event.target.value == 'paypal') {
+        // Hide creditcard and bitcoin
+        $('#credit-card').hide();
+        $('fieldset div:contains("Bitcoin")').hide();
+        $('fieldset div:contains("PayPal")').show();
     }
-});
-hidePaypal();
-hideBitcoin();
-// Hide paypment info
-//$('#credit-card').hide();
-
-
-
-
-
-
+    else if(event.target.value == 'bitcoin'){
+        // Hide creditcard and paypal
+        $('#credit-card').hide();
+        $('fieldset div:contains("PayPal")').hide();
+        // Show Bitcoin
+        $('fieldset div:contains("Bitcoin")').show();
+    }
+    else {
+        // Show everything
+        $('#payment option[value="credit card"]').attr('selected', false);
+    }
+    });
  });
