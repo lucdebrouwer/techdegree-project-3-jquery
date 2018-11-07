@@ -23,7 +23,7 @@ function checkBasicOnSubmit() {
     const $email = $('#mail');
     if($email.val() == '') {
         $email.removeClass('valid').addClass('invalid');
-        $('fieldset').children()[3].innerHTML = "Mail: " + "<span class='invalid'>* please provide a valid email address</span>";
+        $('fieldset').children()[3].innerHTML = "Mail: " + "<span class='invalid'>* Please fill in your email</span>";
     } else {
         $email.removeClass('invalid').addClass('valid');
     }
