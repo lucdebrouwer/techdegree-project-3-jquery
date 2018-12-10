@@ -404,11 +404,11 @@ form.on('submit', (e) => {
 
     // const aSpan = $("<span id='aSpan'></span>").text("* Please make sure to check an activity!");
     // aSpan.addClass('invalid');
-    
-    validateNameMailOnSubmit(nameInput, emailInput);
-    validateCheckboxes($("input[type='checkbox']:checked"));
-    validateCreditcardInfo(ccInput, ccZip, creditCvv);
+    if(validateNameMailOnSubmit(nameInput, emailInput) && validateCheckboxes($("input[type='checkbox']:checked")) && validateCreditcardInfo(ccInput, ccZip, creditCvv)) {
 
-    e.preventDefault();
+    } else {
+        e.preventDefault();
+    }
+
 
 });
