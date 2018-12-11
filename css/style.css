@@ -15,7 +15,8 @@ button {
 body {
   font: 1em/1.5;
   color: #184f68;
-	background: #accbd9;
+	background: #f1f1f1;
+	/* #accbd9; */
 }
 
 header {
@@ -38,7 +39,8 @@ a {
 
 form {
 	padding: .875em 1.875em 1.875em;
-	background: #85b5ca;
+	background: white;
+	/* #85b5ca; */
 }
 
 fieldset,
@@ -85,14 +87,14 @@ input {
 	font-size: 1em;
 	font-weight: 500;
 	padding: .8em;
-	background: #c1deeb;
-	border: 2px solid #c1deeb;
+	background: #f1f1f1;
+	border: 2px solid white;
 	outline: none;
 }
 
 input:focus {
 	background: #fff;
-	border-color: #5e97b0;
+	border-color: #5e97b0; /* needs to be white */
 	transition: border-color .4s, background-color .4s;
 }
 
