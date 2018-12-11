@@ -106,7 +106,7 @@ const hideShowDesigns = () => {
     $('#design').on('change', function(e) {
         colorLabel.show();
         colorList.show();  
-        colorList.empty(); // Make sure there are no left over options from previous selecgion
+        colorList.empty(); // Make sure there are no left over options from previous selection
         // If "I <3 JS " design is selected:
         // 1. "Remove/empty all the color options
         // 2. Append the options that are relative to the selected t-shirt design.d
