@@ -29,6 +29,8 @@ const validatePersonalInfo = (nameInp, emailInp) => {
         let nameErrorMessages = [];
         let nInput = $(this);
         let name = nInput.val();
+
+
         if(name) {
             nameInp.removeClass('invalid');
             nameInp.addClass("valid");
@@ -57,22 +59,24 @@ const validatePersonalInfo = (nameInp, emailInp) => {
         let mIput = $(this);
         let email = mIput.val();
 
+        let mailExpression = new RegExp(`^[^@]+@[^@.]+\.[a-z]+$`); // note to my project reviewer: thanks for the reg expcourse link
         if(email) {
-            if(email && email.indexOf('@') != -1) {
+            if(mailExpression.test(email)) {
+                console.log("passed");
                 emailInp.removeClass('invalid');
                 emailInp.addClass('valid');
-                $('#mail').siblings()[3].innerHTML = "Email: "
+                $('#mail').siblings()[3].innerHTML = "Email: ";
                 mailErrorMessages = [];
-
-            } else {
+            } else{
+                console.log("didn't pass!");
                 mailErrorMessages.push({error: "* Email is invalid"});
                 emailInp.removeClass('valid');
-                emailInp.addClass('invalid');                               
+                emailInp.addClass('invalid'); 
             }
         } else {
-             mailErrorMessages.push({error: "* Field is empty"});
-        }
-        // If there are errors, warn the user
+            mailErrorMessages.push({error: "* Field is empty"});
+        }           
+        //If there are errors, warn the user
         for(let i = 0; i < mailErrorMessages.length; i+= 1) {
             if(mailErrorMessages.length > 0) {
                 $('#mail').siblings()[3].innerHTML = "Email: " + "<span class='invalid'>" + mailErrorMessages[i].error + "</span>";
@@ -351,36 +355,55 @@ const validateCreditCvv = () => {
 
 const validateCreditNumOnSubmit = (num) => {
     
-    if(num.val() === '') {
+    if(num.val()) {
+        let numReg = new RegExp('^[0-9]{13,16}$');
+        if(numReg.test(num.val())) {
+            num.removeClass('invalid').addClass('valid');
+            return true;           
+        } else {
+            num.removeClass('valid').addClass('invalid');
+            return false;
+        }
+    } else {
         num.removeClass('valid').addClass('invalid');
         return false;
-    } else {
-        num.removeClass('invalid');
-        return true;
     }
 }
 
 const validateCreditZipOnSubmit = (zip) => {
-    if(zip.val() === '') {
+    if(zip.val()) {
+        let zipReg = new RegExp('^[0-9]{5}$');
+        if(zipReg.test(zip.val())) {
+            zip.removeClass('invalid').addClass('valid');
+            return true;           
+        } else {
+            zip.removeClass('valid').addClass('invalid');
+            return false;
+        }
+    } else {
         zip.removeClass('valid').addClass('invalid');
         return false;
-    } else {
-        zip.removeClass('invalid');
-        return true;   
     }
 }
 const validateCreditCvvOnSubmit = (cvv) => {
 
-    if(cvv.val() === '') {
+    if(cvv.val()) {
+        let cvvReg = new RegExp('^[0-9]{3}$');
+        if(cvvReg.test(cvv.val())) {
+            cvv.removeClass('invalid').addClass('valid');
+            return true;           
+        } else {
+            cvv.removeClass('valid').addClass('invalid');
+            return false;
+        }
+    } else {
         cvv.removeClass('valid').addClass('invalid');
         return false;
-    } else {
-        cvv.removeClass('invalid');
-        return true;      
     }
 }
 
 const validateNameOnSubmit = (nameInp) => {
+    
     if(nameInp.val() === '') {
         nameInp.removeClass('valid').addClass('invalid');
         return false;
