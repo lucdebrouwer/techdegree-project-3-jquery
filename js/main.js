@@ -238,8 +238,10 @@ const checkOnActivity = () => {
 const validateCheckboxes = (box) => {
     if(box.length > 0) {
         activities.removeClass("invalid").addClass("valid");
+        return true;
     } else {
         activities.removeClass("valid").addClass("invalid");
+        return false;
     }    
 }
 
@@ -338,40 +340,75 @@ const validateCreditCvv = () => {
         }
     });
 }
-const validateCreditcardInfo = (num, zip, cvv) => {
 
-    //console.log(payment);
-    let selected_option = $('#payment option:selected').val();
-    console.log(selected_option);
-    if(selected_option === 'credit card') {
-    // Select the creditcard details 
-
+const validateCreditNumOnSubmit = (num) => {
+    
     if(num.val() === '') {
         num.removeClass('valid').addClass('invalid');
-    } 
-    if(zip.val() === '') {
-        zip.removeClass('valid').addClass('invalid');
-    }
-    if(cvv.val() === '') {
-        cvv.removeClass('valid').addClass('invalid');
-    }
-    // If one ore more fields is empty, mark them as invalid
-    // In all other cases, the fields are not empty, check on input.
-
-    
+        return false;
     } else {
         num.removeClass('invalid');
-        zip.removeClass('invalid');
-        cvv.removeClass('invalid');
-        console.log("No pass");
+        return true;
     }
 }
-const validateNameMailOnSubmit = (nameInp, emailInp) => {
-    if(nameInput.val() === '') {
-        nameInput.removeClass('valid').addClass('invalid');
+
+const validateCreditZipOnSubmit = (zip) => {
+    if(zip.val() === '') {
+        zip.removeClass('valid').addClass('invalid');
+        return false;
+    } else {
+        zip.removeClass('invalid');
+        return true;   
     }
+}
+const validateCreditCvvOnSubmit = (cvv) => {
+
+    if(cvv.val() === '') {
+        cvv.removeClass('valid').addClass('invalid');
+        return false;
+    } else {
+        cvv.removeClass('invalid');
+        return true;      
+    }
+}
+
+// const validateCreditcardInfo = (num, zip, cvv) => {
+
+//     //console.log(payment);
+//     let selected_option = $('#payment option:selected').val();
+//     console.log(selected_option);
+//     if(selected_option === 'credit card') {
+//     // Select the creditcard details 
+
+
+//     // If one ore more fields is empty, mark them as invalid
+//     // In all other cases, the fields are not empty, check on input.
+
+    
+//     } else {
+//         num.removeClass('invalid');
+//         zip.removeClass('invalid');
+//         cvv.removeClass('invalid');
+//         console.log("No pass");
+//     }
+// }
+const validateNameOnSubmit = (nameInp) => {
+    if(nameInp.val() === '') {
+        nameInp.removeClass('valid').addClass('invalid');
+        return false;
+    } else {
+        nameInp.removeClass('invalid');
+        return true;
+    }
+
+}
+const validateMailOnSubmit = (emailInp) => {
     if(emailInp.val() === '') {
-        emailInp.removeClass('valid').addClass('invalid');      
+        emailInp.removeClass('valid').addClass('invalid');    
+        return false;  
+    } else {
+        emailInp.removeClass('invalid');
+        return true;
     }
 }
 /* ---------------- Personal info ---------------- */
@@ -402,13 +439,32 @@ validateCreditCvv();
 /* ---------------- Form submit ---------------- */
 form.on('submit', (e) => {
 
-    // const aSpan = $("<span id='aSpan'></span>").text("* Please make sure to check an activity!");
-    // aSpan.addClass('invalid');
-    if(validateNameMailOnSubmit(nameInput, emailInput) && validateCheckboxes($("input[type='checkbox']:checked")) && validateCreditcardInfo(ccInput, ccZip, creditCvv)) {
-
-    } else {
+    // Validate all
+    validateNameOnSubmit(nameInput);
+    validateMailOnSubmit(emailInput);
+    validateCheckboxes($("input[type='checkbox']:checked"));
+    // Validate only if creditcard is selected
+    let selected_option = $('#payment option:selected').val();
+    console.log(selected_option);
+    if(selected_option === 'credit card') {
+        if(!validateCreditNumOnSubmit(ccInput)) {
+            e.preventDefault();
+        }
+        if(!validateCreditZipOnSubmit(ccZip)) {
+            e.preventDefault();
+        }
+        if(!validateCreditCvvOnSubmit(creditCvv)) {
+            e.preventDefault();
+        }
+    }
+    // Check all other validation statuses 
+    // if all validations pass refresh page.
+    if(!validateNameOnSubmit(nameInput) || !validateMailOnSubmit(emailInput) || !validateCheckboxes($("input[type='checkbox']:checked"))) {
         e.preventDefault();
     }
+    
+
+    //validateCreditcardInfo(ccInput, ccZip, creditCvv);
 
 
 });
