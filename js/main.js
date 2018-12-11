@@ -1,10 +1,8 @@
 // Plan
 // Problem: We want to create an interactive usage of the form. The end user needs to receive feedback messages when input is incorrect or the user interacts with the form.
-// This interactive form shouldn't be able to submit until everything is correctly filled and no error are shown.
+// This interactive form shouldn't be able to submit until everything is correctly filled and no errors are shown.
 // Solution: To make this project easy to understand we will use jQuery for its ease. This project will have a functional approach and will be devided into sections.
 // Each section has it own block of code relative to their section. Comments will clarify why a decision is made.
-
-// Prepare
 
 /* ----------------Selectors ----------------*/
 const nameInput = $('#name')
@@ -74,6 +72,7 @@ const validatePersonalInfo = (nameInp, emailInp) => {
         } else {
              mailErrorMessages.push({error: "* Field is empty"});
         }
+        // If there are errors, warn the user
         for(let i = 0; i < mailErrorMessages.length; i+= 1) {
             if(mailErrorMessages.length > 0) {
                 $('#mail').siblings()[3].innerHTML = "Email: " + "<span class='invalid'>" + mailErrorMessages[i].error + "</span>";
@@ -107,26 +106,23 @@ const hideShowDesigns = () => {
     $('#design').on('change', function(e) {
         colorLabel.show();
         colorList.show();  
-
-        // If "I <3 JS " design is selected :
+        colorList.empty(); // Make sure there are no left over options from previous selecgion
+        // If "I <3 JS " design is selected:
         // 1. "Remove/empty all the color options
         // 2. Append the options that are relative to the selected t-shirt design.d
-    
-        // Else if "JS puns " design is selected :
-        // 1. "Remove/empty" all the color options
-        // 2. Append the options that are relative to the selected t-shirt design.
-        colorList.empty();
-        // Else : Hide the list and label
         if(e.target.value === 'js puns') {
             colorList.append('<option>Cornflower Blue</option>');
             colorList.append('<option>Dark Slate Grey</option>');
-            colorList.append('<option>Gold</option>');           
-
+            colorList.append('<option>Gold</option>');             
+        // if "JS puns " design is selected:
+        // 1. "Remove/empty" all the color options
+        // 2. Append the options that are relative to the selected t-shirt design.
         } else if(e.target.value === 'heart js') {
             colorList.append('<option>Tomato</option>');
             colorList.append('<option>Steel Blue</option>');
             colorList.append('<option>Dim Grey</option>');
         }
+        // Else : Hide the list and label        
         else {
             colorLabel.hide();
             colorList.hide();
@@ -147,6 +143,9 @@ const checkOnActivity = () => {
     let total = 0;
     activities.append("<span id='totalCost'></span>");
     let totalCost = $('#totalCost');
+
+    // This is where the magic happens
+    // Listen for checked state and take action
     activities.on("change", (e) => {
         const checked = e.target.checked;
         if(e.target === main[0]) {
@@ -158,6 +157,9 @@ const checkOnActivity = () => {
             }
         }
         else {
+            // Check which activity is checked
+            // if activity conflicts with another activity, disable the conflicting activity
+            // set the label text to grey to visually show it is not an option
             switch(e.target) {
                 case (jsframeworks[0]): {
 
@@ -231,11 +233,14 @@ const checkOnActivity = () => {
                 }
             }
         }
+        // Display the total cost
         totalCost[0].innerText = "Total: $ " + total;
         
     });
 }
 const validateCheckboxes = (box) => {
+    // if there is more than one activity checked, validation passes.
+    // Else mark field red
     if(box.length > 0) {
         activities.removeClass("invalid").addClass("valid");
         return true;
@@ -246,6 +251,9 @@ const validateCheckboxes = (box) => {
 }
 
 const checkPaymentSelection = () => {
+    // Disable the default select method
+    // Make it no longer the selected option
+    // Set credit_card as default 
     $('#payment option[value="select_method"').attr('disabled', true);
     $('#payment option[selected]').removeAttr('selected');
     $('#payment option[value="credit card"]').attr('selected', true);
@@ -372,26 +380,6 @@ const validateCreditCvvOnSubmit = (cvv) => {
     }
 }
 
-// const validateCreditcardInfo = (num, zip, cvv) => {
-
-//     //console.log(payment);
-//     let selected_option = $('#payment option:selected').val();
-//     console.log(selected_option);
-//     if(selected_option === 'credit card') {
-//     // Select the creditcard details 
-
-
-//     // If one ore more fields is empty, mark them as invalid
-//     // In all other cases, the fields are not empty, check on input.
-
-    
-//     } else {
-//         num.removeClass('invalid');
-//         zip.removeClass('invalid');
-//         cvv.removeClass('invalid');
-//         console.log("No pass");
-//     }
-// }
 const validateNameOnSubmit = (nameInp) => {
     if(nameInp.val() === '') {
         nameInp.removeClass('valid').addClass('invalid');
@@ -422,20 +410,24 @@ $(document).ready(function(){
 // Marks incorrect fields red and provides an error message
 validatePersonalInfo(nameInput, emailInput);
 
-// This function will hide or show job title other input field
-// Based on user selection
-hideShowTitle(title);
+
+hideShowTitle(title); // Hide or show the title other field based on selection
 
 /* ---------------- T-shirt section ---------------- */
-hideShowDesigns();
+
+hideShowDesigns(); // Checks what design is selected, updates the color select accordingly
 
 /* ---------------- Activities section ---------------- */
-checkOnActivity();
+
+checkOnActivity(); // Checks what activity is checked, if activity conflicts with another it will be disabled
+
 /* ---------------- Payment section ---------------- */
-checkPaymentSelection();
-validateCreditNum();
-validateCreditZip();
-validateCreditCvv();
+
+checkPaymentSelection(); // Checks for selected payment option, based on selection fields should hide or appear
+validateCreditNum(); // Checks for live input, uses regex to validate the Creditnumber
+validateCreditZip(); // Checks for live input, uses regex to validate the ZIP code
+validateCreditCvv(); // Checks for live input, uses regex to validate the CVV code
+
 /* ---------------- Form submit ---------------- */
 form.on('submit', (e) => {
 
@@ -443,9 +435,9 @@ form.on('submit', (e) => {
     validateNameOnSubmit(nameInput);
     validateMailOnSubmit(emailInput);
     validateCheckboxes($("input[type='checkbox']:checked"));
+
     // Validate only if creditcard is selected
     let selected_option = $('#payment option:selected').val();
-    console.log(selected_option);
     if(selected_option === 'credit card') {
         if(!validateCreditNumOnSubmit(ccInput)) {
             e.preventDefault();
@@ -457,14 +449,9 @@ form.on('submit', (e) => {
             e.preventDefault();
         }
     }
-    // Check all other validation statuses 
-    // if all validations pass refresh page.
+
+    // Check the rest of the validations, if it doesn't fail allow form submit
     if(!validateNameOnSubmit(nameInput) || !validateMailOnSubmit(emailInput) || !validateCheckboxes($("input[type='checkbox']:checked"))) {
         e.preventDefault();
     }
-    
-
-    //validateCreditcardInfo(ccInput, ccZip, creditCvv);
-
-
 });
