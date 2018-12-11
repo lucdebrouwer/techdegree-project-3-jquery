@@ -414,13 +414,25 @@ const validateNameOnSubmit = (nameInp) => {
 
 }
 const validateMailOnSubmit = (emailInp) => {
-    if(emailInp.val() === '') {
-        emailInp.removeClass('valid').addClass('invalid');    
-        return false;  
+    //let mailErrorMessages = [];
+    let mailExpression = new RegExp(`^[^@]+@[^@.]+\.[a-z]+$`); // note to my project reviewer: thanks for the reg expcourse link
+    if(emailInp.val()) {
+        if(mailExpression.test(emailInp.val())) {
+            console.log("passed");
+            emailInp.removeClass('invalid');
+            emailInp.addClass('valid');
+            return true;
+            //mailErrorMessages = [];
+        } else{
+            console.log("didn't pass!");
+            emailInp.removeClass('valid');
+            emailInp.addClass('invalid'); 
+            return false;
+        }
     } else {
-        emailInp.removeClass('invalid');
-        return true;
-    }
+        emailInp.addClass('invalid');
+        return false;
+    } 
 }
 /* ---------------- Personal info ---------------- */
 
