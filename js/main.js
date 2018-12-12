@@ -11,7 +11,8 @@ const title = $("#title");
 const form = $("form");
 const colorList = $('#color');
 const colorLabel = $('#colors-js-puns').children().first();
-const activities = $('.activities')
+const activities = $('.activities');
+const activityHeader = $('.activities').children().first();
 const payment = $('#payment');
 const paypalField = $('fieldset div:contains("PayPal")');
 const bitcoinField = $('fieldset div:contains("Bitcoin")');
@@ -147,7 +148,7 @@ const checkOnActivity = () => {
     const npm = $("input[name='npm']");
 
     let total = 0;
-    activities.append("<span id='totalCost'></span>");
+    activities.append("<p id='totalCost'></p>");
     let totalCost = $('#totalCost');
 
     // This is where the magic happens
@@ -248,10 +249,10 @@ const validateCheckboxes = (box) => {
     // if there is more than one activity checked, validation passes.
     // Else mark field red
     if(box.length > 0) {
-        activities.removeClass("invalid").addClass("valid");
+        activityHeader.removeClass("invalid").addClass("valid");
         return true;
     } else {
-        activities.removeClass("valid").addClass("invalid");
+        activityHeader.removeClass("valid").addClass("invalid");
         return false;
     }
 }
@@ -467,7 +468,7 @@ checkPaymentSelection(); // Checks for selected payment option, based on selecti
 validateCreditNum(); // Checks for live input, uses regex to validate the Creditnumber
 validateCreditZip(); // Checks for live input, uses regex to validate the ZIP code
 validateCreditCvv(); // Checks for live input, uses regex to validate the CVV code
-
+console.log(activityHeader);
 /* ---------------- Form submit ---------------- */
 form.on('submit', (e) => {
 
@@ -475,6 +476,7 @@ form.on('submit', (e) => {
     validateNameOnSubmit(nameInput);
     validateMailOnSubmit(emailInput);
     validateCheckboxes($("input[type='checkbox']:checked"));
+
 
     // Validate only if creditcard is selected
     let selected_option = $('#payment option:selected').val();
