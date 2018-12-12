@@ -59,7 +59,7 @@ const validatePersonalInfo = (nameInp, emailInp) => {
         let mIput = $(this);
         let email = mIput.val();
 
-        let mailExpression = new RegExp(`^[^@]+@[^@.]+\.[a-z]+$`); // note to my project reviewer: thanks for the reg expcourse link
+        let mailExpression = new RegExp('^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'); // note to my project reviewer: thanks for the reg expcourse link
         if(email) {
             if(mailExpression.test(email)) {
                 console.log("passed");
@@ -417,7 +417,7 @@ const validateNameOnSubmit = (nameInp) => {
 }
 const validateMailOnSubmit = (emailInp) => {
     //let mailErrorMessages = [];
-    let mailExpression = new RegExp(`^[^@]+@[^@.]+\.[a-z]+$`); // note to my project reviewer: thanks for the reg expcourse link
+    let mailExpression = new RegExp('^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'); // note to my project reviewer: thanks for the reg expcourse link
     if(emailInp.val()) {
         if(mailExpression.test(emailInp.val())) {
             console.log("passed");
