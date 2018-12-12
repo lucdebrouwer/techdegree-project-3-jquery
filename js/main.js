@@ -74,6 +74,8 @@ const validatePersonalInfo = (nameInp, emailInp) => {
                 emailInp.addClass('invalid'); 
             }
         } else {
+            emailInp.removeClass('valid');
+            emailInp.addClass('invalid');
             mailErrorMessages.push({error: "* Field is empty"});
         }           
         //If there are errors, warn the user
@@ -430,6 +432,7 @@ const validateMailOnSubmit = (emailInp) => {
             return false;
         }
     } else {
+        emailInp.removeClass('valid');
         emailInp.addClass('invalid');
         return false;
     } 
