@@ -5,8 +5,8 @@
 // Each section has it own block of code relative to their section. Comments will clarify why a decision is made.
 
 /* ----------------Selectors ----------------*/
-const nameInput = $('#name')
-const emailInput = $("#mail")
+const nameInput = $('#name');
+const emailInput = $("#mail");
 const title = $("#title");
 const form = $("form");
 const colorList = $('#color');
@@ -37,7 +37,7 @@ const validatePersonalInfo = (nameInp, emailInp) => {
             if(nameErrorMessages.length === 0) {
                 $('#name').siblings()[1].innerHTML = "Name: ";
                 nameErrorMessages = [];
-            }            
+            }
         }
         else {
             nameInp.removeClass('valid');
@@ -59,7 +59,7 @@ const validatePersonalInfo = (nameInp, emailInp) => {
         let mIput = $(this);
         let email = mIput.val();
 
-        let mailExpression = new RegExp('^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'); // note to my project reviewer: thanks for the reg expcourse link
+        let mailExpression = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // note to my project reviewer: thanks for the reg expcourse link
         if(email) {
             if(mailExpression.test(email)) {
                 console.log("passed");
@@ -71,13 +71,13 @@ const validatePersonalInfo = (nameInp, emailInp) => {
                 console.log("didn't pass!");
                 mailErrorMessages.push({error: "* Email is invalid"});
                 emailInp.removeClass('valid');
-                emailInp.addClass('invalid'); 
+                emailInp.addClass('invalid');
             }
         } else {
             emailInp.removeClass('valid');
             emailInp.addClass('invalid');
             mailErrorMessages.push({error: "* Field is empty"});
-        }           
+        }
         //If there are errors, warn the user
         for(let i = 0; i < mailErrorMessages.length; i+= 1) {
             if(mailErrorMessages.length > 0) {
@@ -111,7 +111,7 @@ const hideShowDesigns = () => {
 
     $('#design').on('change', function(e) {
         colorLabel.show();
-        colorList.show();  
+        colorList.show();
         colorList.empty(); // Make sure there are no left over options from previous selection
         // If "I <3 JS " design is selected:
         // 1. "Remove/empty all the color options
@@ -119,7 +119,7 @@ const hideShowDesigns = () => {
         if(e.target.value === 'js puns') {
             colorList.append('<option>Cornflower Blue</option>');
             colorList.append('<option>Dark Slate Grey</option>');
-            colorList.append('<option>Gold</option>');             
+            colorList.append('<option>Gold</option>');
         // if "JS puns " design is selected:
         // 1. "Remove/empty" all the color options
         // 2. Append the options that are relative to the selected t-shirt design.
@@ -128,12 +128,12 @@ const hideShowDesigns = () => {
             colorList.append('<option>Steel Blue</option>');
             colorList.append('<option>Dim Grey</option>');
         }
-        // Else : Hide the list and label        
+        // Else : Hide the list and label
         else {
             colorLabel.hide();
             colorList.hide();
         }
-        
+
     });
 }
 
@@ -145,7 +145,7 @@ const checkOnActivity = () => {
     const node = $("input[name='node']");
     const buildtools = $("input[name='build-tools']");
     const npm = $("input[name='npm']");
-    
+
     let total = 0;
     activities.append("<span id='totalCost'></span>");
     let totalCost = $('#totalCost');
@@ -174,7 +174,7 @@ const checkOnActivity = () => {
                         express[0].disabled = false;
                         express[0].parentNode.style.color = 'black';
                     } else {
-                        
+
                       express[0].disabled = true;
                       express[0].parentNode.style.color = 'grey';
                         total += 100;
@@ -241,7 +241,7 @@ const checkOnActivity = () => {
         }
         // Display the total cost
         totalCost[0].innerText = "Total: $ " + total;
-        
+
     });
 }
 const validateCheckboxes = (box) => {
@@ -253,13 +253,13 @@ const validateCheckboxes = (box) => {
     } else {
         activities.removeClass("valid").addClass("invalid");
         return false;
-    }    
+    }
 }
 
 const checkPaymentSelection = () => {
     // Disable the default select method
     // Make it no longer the selected option
-    // Set credit_card as default 
+    // Set credit_card as default
     $('#payment option[value="select_method"').attr('disabled', true);
     $('#payment option[selected]').removeAttr('selected');
     $('#payment option[value="credit card"]').attr('selected', true);
@@ -301,15 +301,15 @@ const checkPaymentSelection = () => {
             // Show everything
             //creditCardField.removeClass("invalid").addClass('valid');
             $('#payment option[value="credit card"]').attr('selected', false);
-        }        
+        }
     });
-  
+
 }
 const validateCreditNum = () => {
     $('#cc-num').on('input', function() {
         let input = $(this);
         let ccNum = input.val();
-        
+
         // Check whether user input meets Regex
         // Creditcard num should only accept 13-16 digits
         // If valid, mark valid
@@ -348,7 +348,7 @@ const validateCreditCvv = () => {
         // CCV should only accept 3 digits
         let ccv = new RegExp('^[0-9]{3}$');
         if(ccv.test(creditCvv)) {
-            input.removeClass('invalid').addClass('valid');           
+            input.removeClass('invalid').addClass('valid');
         } else {
             input.removeClass('valid').addClass('invalid');
         }
@@ -356,12 +356,12 @@ const validateCreditCvv = () => {
 }
 
 const validateCreditNumOnSubmit = (num) => {
-    
+
     if(num.val()) {
         let numReg = new RegExp('^[0-9]{13,16}$');
         if(numReg.test(num.val())) {
             num.removeClass('invalid').addClass('valid');
-            return true;           
+            return true;
         } else {
             num.removeClass('valid').addClass('invalid');
             return false;
@@ -377,7 +377,7 @@ const validateCreditZipOnSubmit = (zip) => {
         let zipReg = new RegExp('^[0-9]{5}$');
         if(zipReg.test(zip.val())) {
             zip.removeClass('invalid').addClass('valid');
-            return true;           
+            return true;
         } else {
             zip.removeClass('valid').addClass('invalid');
             return false;
@@ -393,7 +393,7 @@ const validateCreditCvvOnSubmit = (cvv) => {
         let cvvReg = new RegExp('^[0-9]{3}$');
         if(cvvReg.test(cvv.val())) {
             cvv.removeClass('invalid').addClass('valid');
-            return true;           
+            return true;
         } else {
             cvv.removeClass('valid').addClass('invalid');
             return false;
@@ -405,7 +405,7 @@ const validateCreditCvvOnSubmit = (cvv) => {
 }
 
 const validateNameOnSubmit = (nameInp) => {
-    
+
     if(nameInp.val() === '') {
         nameInp.removeClass('valid').addClass('invalid');
         return false;
@@ -417,9 +417,11 @@ const validateNameOnSubmit = (nameInp) => {
 }
 const validateMailOnSubmit = (emailInp) => {
     //let mailErrorMessages = [];
-    let mailExpression = new RegExp('^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'); // note to my project reviewer: thanks for the reg expcourse link
-    if(emailInp.val()) {
-        if(mailExpression.test(emailInp.val())) {
+    let mailExpression = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // note to my project reviewer: thanks for the reg expcourse link
+    let input = emailInp;
+    let email = input.val();
+    if(email) {
+        if(mailExpression.test(email)) {
             console.log("passed");
             emailInp.removeClass('invalid');
             emailInp.addClass('valid');
@@ -428,14 +430,14 @@ const validateMailOnSubmit = (emailInp) => {
         } else{
             console.log("didn't pass!");
             emailInp.removeClass('valid');
-            emailInp.addClass('invalid'); 
+            emailInp.addClass('invalid');
             return false;
         }
     } else {
         emailInp.removeClass('valid');
         emailInp.addClass('invalid');
         return false;
-    } 
+    }
 }
 /* ---------------- Personal info ---------------- */
 
